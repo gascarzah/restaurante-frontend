@@ -1,0 +1,113 @@
+<form  [formGroup]="form" (ngSubmit)="operar()" #espForm="ngForm">
+
+<div class="wrapper ">
+
+
+  <div class="aside">
+ <mat-toolbar>Productos</mat-toolbar>
+       <div [hidden]="true">
+          <mat-form-field appearance="fill">
+              <input matInput placeholder="ID" required formControlName="id">
+          </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="fill" >
+          <input matInput placeholder="Nombre Producto" required formControlName="nombre">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <input matInput placeholder="Descripcion" required formControlName="descripcion">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" >
+      <input matInput placeholder="Precio" required formControlName="precio" >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+             <mat-select placeholder="Selecciona categoria producto" [(value)]="categoriaProducto" formControlName="categoriaProducto"
+             [compareWith]="objectComparisonFunction">
+
+                <mat-option *ngFor="let p of (categoriaProductos$ | async)" [value]="p" >
+                    {{p.nombre}}
+                </mat-option>
+            </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" >Registrar</button>
+  </div>
+  <div class="aside">
+    <mat-toolbar>Insumos</mat-toolbar>
+     <mat-form-field appearance="fill">
+      <mat-select placeholder="Selecciona insumo" [(value)]="insumo" formControlName="insumo"
+      [compareWith]="objectComparisonFunction">
+      <mat-option value="">Selecciona insumo</mat-option>
+         <mat-option *ngFor="let p of (insumos$ | async)" [value]="p" >
+             {{p.descripcion}}
+         </mat-option>
+     </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" >
+      <input matInput placeholder="Cantidad" required formControlName="cantidad" [(ngModel)]="cantidad">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-select placeholder="Selecciona unidad de medida" [(value)]="unidad" formControlName="unidad"
+      [compareWith]="objectComparisonFunction">
+      <mat-option value="">Selecciona unidad</mat-option>
+         <mat-option *ngFor="let p of (unidades$ | async)" [value]="p" >
+             {{p.nombre}}
+         </mat-option>
+     </mat-select>
+    </mat-form-field>
+
+    <div class="inner">
+          <button mat-raised-button type="button" (click)="agregarInsumo()" >
+            <mat-icon>done</mat-icon>
+            <span>Agregar</span>
+        </button>
+        <button mat-raised-button color="accent" routerLink='/producto' type="button">
+            <mat-icon>close</mat-icon>
+            <span>Cancelar</span>
+        </button>
+      </div>
+
+  </div>
+  <div class="aside2">
+    <!-- <table mat-table [dataSource]="dataSourceProductoDetalle" matSort  >
+      <ng-container matColumnDef="insumo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Insumo </th>
+        <td mat-cell *matCellDef="let element"> {{element.insumo.descripcion}} </td>
+    </ng-container>
+    <ng-container matColumnDef="cantidad">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+          <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+      </ng-container>
+      <ng-container matColumnDef="unidad">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Unidad </th>
+        <td mat-cell *matCellDef="let element"> {{element.unidad.nombre}} </td>
+    </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table> -->
+
+  <mat-list role="list">
+    <mat-list-item role="listitem" *ngFor="let ex of productoDetalleArr; let i = index">
+      <p class="b"><span style="font-weight: bold;"> INSUMO:</span> {{ex.insumo.descripcion}} &nbsp; </p>&nbsp;
+      <p class="b"><span style="font-weight: bold;">CANTIDAD:</span>  {{ex.cantidad}} &nbsp; </p>&nbsp;
+        <p class="b"><span style="font-weight: bold;">UNIDAD:</span>  {{ex.unidad.nombre}} &nbsp; </p>&nbsp;
+        <button mat-raised-button color="warn" (click)="removerInsumo(i)">Remover</button>
+    </mat-list-item>
+</mat-list>
+<!-- <table mat-table [dataSource]="productoDetalleArr" class="mat-elevation-z8">
+  <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+</table> -->
+  </div>
+</div>
+</form>

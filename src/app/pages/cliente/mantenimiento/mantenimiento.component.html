@@ -1,0 +1,63 @@
+<h1 mat-dialog-title>Registro cliente</h1>
+
+<div mat-dialog-content>
+
+  <mat-form-field>
+    <mat-label>Dni</mat-label>
+    <input matInput [(ngModel)]="data.dni" (keypress)="keyPressNumbers($event)" (ngModelChange)="data.dni=$event.trim()" [disabled] = 'habilitado' >
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Nombre</mat-label>
+    <input matInput [(ngModel)]="data.nombres" (keypress)="keyPressAlpha($event)" (ngModelChange)="data.nombres=$event.toUpperCase().trim()" >
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Apellido Paterno</mat-label>
+    <input matInput [(ngModel)]="data.apellidoPaterno" (keypress)="keyPressAlpha($event)" (ngModelChange)="data.apellidoPaterno=$event.toUpperCase().trim()">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Apellido Materno</mat-label>
+    <input matInput [(ngModel)]="data.apellidoMaterno" (keypress)="keyPressAlpha($event)" (ngModelChange)="data.apellidoMaterno=$event.toUpperCase().trim()">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Telefono</mat-label>
+    <input matInput [(ngModel)]="data.telefono"  (keypress)="keyPressNumbers($event)" (ngModelChange)="data.telefono=$event.trim()">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+
+    <input type="email" matInput [(ngModel)]="data.email"  (ngModelChange)="data.email=$event.toUpperCase().trim()">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Direccion</mat-label>
+    <input matInput [(ngModel)]="data.direccion" (keypress)="keyPressAlphaNumericWithCharacters($event)" (ngModelChange)="data.direccion=$event.toUpperCase().trim()">
+  </mat-form-field>
+<br/>
+
+<!-- <button mat-button color="primary" onclick="document.getElementById('flArchivo').click()">Seleccionar</button>
+<input id="flArchivo" type="file" style="display: none;"  (change)="seleccionarArchivo($event)">
+<p>{{nombreArchivo}}</p>
+<br/> -->
+  <!-- <ng-container>
+    <img mat-card-image  [src]="data.imagen" width="30%"  *ngIf="data.imagen != null">
+   </ng-container>
+   <br/> -->
+   <mat-card class="result">
+    <mat-card-content>
+  <mat-slide-toggle matInput [(ngModel)]="data.activo">
+    <mat-label *ngIf="data.activo">  Activo</mat-label>
+    <mat-label *ngIf="!data.activo">  DesActivo</mat-label>
+  </mat-slide-toggle>
+</mat-card-content>
+</mat-card>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="registrar()" >
+    <mat-icon>done</mat-icon>
+    <span>Aceptar</span>
+  </button>
+
+  <button mat-button [mat-dialog-close]="data.apellidoPaterno" cdkFocusInitial>Cerrar</button>
+</div>

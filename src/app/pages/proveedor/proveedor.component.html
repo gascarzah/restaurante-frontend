@@ -1,0 +1,82 @@
+<router-outlet></router-outlet>
+<div class="example-header">
+
+  <mat-form-field >
+      <input matInput #filtro (keyup)="filtrar(filtro.value)" placeholder="Buscar Proveedor">
+  </mat-form-field>
+</div>
+
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+  <!-- <ng-container matColumnDef="dni">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> dni </th>
+      <td mat-cell *matCellDef="let element"> {{element.dni}} </td>
+  </ng-container> -->
+
+  <ng-container matColumnDef="ruc">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ruc </th>
+      <td mat-cell *matCellDef="let element"> {{element.ruc}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="razonSocial">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> razonSocial </th>
+    <td mat-cell *matCellDef="let element"> {{element.razonSocial}} </td>
+</ng-container>
+
+<ng-container matColumnDef="direccion">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> direccion </th>
+  <td mat-cell *matCellDef="let element"> {{element.direccion}} </td>
+</ng-container>
+
+<ng-container matColumnDef="telefono">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> telefono </th>
+  <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+</ng-container>
+
+<ng-container matColumnDef="celular">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> celular </th>
+  <td mat-cell *matCellDef="let element"> {{element.celular}} </td>
+</ng-container>
+
+<ng-container matColumnDef="email">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> email </th>
+  <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+</ng-container>
+
+<ng-container matColumnDef="cuenta01">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> cuenta01 </th>
+  <td mat-cell *matCellDef="let element"> {{element.cuenta01}} </td>
+</ng-container>
+
+<ng-container matColumnDef="cuenta02">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> cuenta02 </th>
+  <td mat-cell *matCellDef="let element"> {{element.cuenta02}} </td>
+</ng-container>
+
+<!-- <ng-container matColumnDef="observacion">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> observacion </th>
+  <td mat-cell *matCellDef="let element"> {{element.observacion}} </td>
+</ng-container> -->
+
+  <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td mat-cell *matCellDef="let element">
+          <button mat-button color="primary" (click)="openDialogMod(element)">
+              <mat-icon>ballot</mat-icon>
+          </button>
+          <button mat-button color="accent" (click)="eliminar(element.idProveedor)">
+              <mat-icon>delete</mat-icon>
+          </button>
+      </td>
+  </ng-container>
+
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [length]='cantidad' (page)="mostrarMas($event)"></mat-paginator>
+
+<button mat-fab color="accent" style="float: right" (click)="openDialog()">
+<mat-icon>create</mat-icon>
+</button>
+
