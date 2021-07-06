@@ -1,13 +1,18 @@
 import { ProductoDetalle } from './../../_model/producto-detalle';
-import { PedidoDetalle } from './../../_model/pedido-detalle';
+
 import { ProductoService } from './../../_service/producto.service';
 import { Producto } from './../../_model/producto';
 import { FormControl, FormArray, FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { MesaService } from './../../_service/mesa.service';
 import { Mesa } from './../../_model/mesa';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Pedido } from '../../_model/pedido';
+import { PedidoDetalle } from '../../_model/pedido-detalle';
+import { PedidoDto } from '../../_dto/pedidoDto';
+import { PedidoService } from '../../_service/pedido.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,31 +21,34 @@ import { Observable } from 'rxjs';
   styleUrls: ['./toma-pedido.component.css']
 })
 export class TomaPedidoComponent implements OnInit {
+  @Input() nombre: string;
   mesas$: Observable<Mesa[]>;
   productos$: Observable<Producto[]>;
   form: FormGroup
   edicion: boolean = false;
-  mesa: Mesa
-  producto: Producto
+  mesas: Mesa[] = []
+  // producto: Producto
   mesaSeleccionada: Mesa[]
   carta: Producto[]
+  // pedido: Pedido
   // conteo: number = 0
-  // pedidoDetalleArr: PedidoDetalle[] = []
+  pedidoDetalleArr: PedidoDetalle[] = []
   // pedidosDetalle= new FormArray([]);
 
   constructor(private mesaService: MesaService,
               private productoService: ProductoService,
               private cdRef: ChangeDetectorRef,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private pedidoService: PedidoService) { }
 
   ngOnInit(): void {
   this.listarMesas()
   this.listarProductos()
 
    this.form = this.fb.group({
-      id: new FormControl(0),
-      mesa: new FormControl(''),
-      producto: new FormControl(''),
+      'id': new FormControl(0),
+      'mesas': new FormControl(''),
+      'producto': new FormControl(''),
       pedidosDetalle: this.fb.array([]),
 
    })
@@ -53,6 +61,7 @@ export class TomaPedidoComponent implements OnInit {
   }
 
   addPedidoDetalle(carta: Producto){
+    this.nombre = carta.nombre
     const pedidoDetalleForm = this.fb.group({
       'producto': new FormControl(carta),
       'nombre': new FormControl(carta.nombre),
@@ -69,7 +78,38 @@ export class TomaPedidoComponent implements OnInit {
   }
 
 
-  operar() {
+  registrarPedido() {
+    // console.log('entro a operar')
+    let pedido = new Pedido()
+    pedido.idPedido = this.form.value['id'];
+    // let mesa = new Mesa()
+    // pedido.mesa = this.form.value['mesas']
+
+    this.pedidosDetalle.controls.forEach((element, index) => {
+      let pedidoDetalle = new PedidoDetalle()
+      pedidoDetalle.cantidad = element.value['cantidad']
+      pedidoDetalle.observacion = element.value['observacion']
+      pedidoDetalle.producto =element.value['producto']
+      this.pedidoDetalleArr.push(pedidoDetalle)
+      // console.log('comienzo')
+      // console.log(element.value['producto'])
+      // console.log(element.value['nombre'])
+      // console.log(element.value['cantidad'])
+      // console.log(element.value['observacion'])
+    })
+
+    const pedidoDto = new PedidoDto()
+    pedidoDto.pedido = pedido;
+    pedidoDto.pedidoDetalles = this.pedidoDetalleArr
+    let mesas = this.form.value['mesas']
+    pedidoDto.mesas = mesas
+    console.log(pedidoDto)
+    this.pedidoService.registrarTransaccion(pedidoDto).pipe(switchMap(() => {
+      return this.pedidoService.listar();
+    })).subscribe(data => {
+      this.pedidoService.setPedidoCambio(data);
+      this.pedidoService.setMensajeCambio("Se modificó");
+    });
   }
 
   listarMesas() {
@@ -105,8 +145,9 @@ export class TomaPedidoComponent implements OnInit {
 
   }
 
-  // getNombreProducto(i: number) {
+  getNameLabel(i: number){
+    return this.pedidosDetalle.controls[i].value['nombre']
+   }
 
-  // }
 
 }

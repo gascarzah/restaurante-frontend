@@ -103,5 +103,8 @@
       }
     }
   },
-  "defaultProject": "restaurante-frontend"
+  "defaultProject": "restaurante-frontend",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -127,9 +127,9 @@ section {
   width: 400px;
 }
 
-/* .example-button-row .mat-button-base {
+.example-button-row .mat-button-base {
   margin: 8px 8px 8px 0;
-} */
+}
 
 .example-flex-container {
   display: flex;
@@ -163,3 +163,25 @@ section {
   width: 50px;
   float: none;
 }
+
+.display-table {
+  display: table;
+
+}
+.display-table > div {
+  display: table-row;
+}
+.display-table > div > div {
+  display: table-cell;
+  padding: 25px;
+}
+.example-form-field-nombre1 {
+  width: auto;
+  border-color: aliceblue;
+  text-align: center;
+  font-size: 15px;
+}
+
+.mat-form-field-nombre1-underline {
+  display: none;
+  }
