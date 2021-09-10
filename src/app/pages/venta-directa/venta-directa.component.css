@@ -1,0 +1,211 @@
+*,
+*::after,
+*::before{
+  box-sizing: border-box;
+  margin: 0 ;
+  padding: 0;
+
+}
+
+  /* max-width: 1250px; */
+  /* margin: 0 auto;
+  padding: 0 60px; */
+
+
+main {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: space-between;
+  justify-content: center;
+  /* align-content: center; */
+  /* max-width: 1250px; */
+}
+.item{
+  border: thin solid #CCC;
+  /* flex: 1 1 auto; */
+}
+.hijo-izquierdo{
+  flex-grow: 1;
+}
+ .sub-item{
+  border: thin solid #C70;
+ flex: 1 1 auto;
+ /* height: 50%; */
+}
+
+.orden{
+  display: flex;
+  flex-flow: row wrap;
+  border: thin solid black;
+}
+
+.item-orden{
+  border: thin solid #C20;
+  flex: 1 1 auto;
+  align-self: flex-start;
+
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+  border: thin solid black;
+}
+
+.signs{
+  font-weight: bolder;
+  font-size: large;
+}
+
+/* PAra el detalle */
+
+table {
+  width: 100%;
+}
+
+tr.student-detail-row {
+  height: 0;
+}
+
+tr.student-element-row:not(.student-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.student-element-row:not(.student-expanded-row):active {
+  background: #efefef;
+}
+
+.student-element-row td {
+  border-bottom-width: 0;
+}
+
+.student-element-detail {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e1e1e1;
+  box-shadow: inset 2px 3px 8px #c1c1c1;
+  border-radius: 8px;
+}
+
+.student-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.student-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.student-element-description {
+  padding: 16px;
+}
+
+.student-element-description-attribution {
+  opacity: 0.5;
+}
+
+.preorden {
+  height: 20px;
+  width: 20px;
+  background-color: blue;
+  border-radius: 50%;
+}
+
+.pagado {
+  height: 20px;
+  width: 20px;
+  background-color: yellow;
+  border-radius: 50%;
+}
+.preparandodo {
+  height: 20px;
+  width: 20px;
+  background-color: yellowgreen;
+  border-radius: 50%;
+}
+
+.entregado {
+  height: 20px;
+  width: 20px;
+  background-color: green;
+  border-radius: 50%;
+}
+
+/* antiguo */
+
+.example-card {
+  max-width: 300px;
+}
+
+
+.example-full-width {
+  width: 16.66666666666667%;
+  min-width: 270px;
+  max-width: 500px;
+ text-align: center;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+.boton {
+
+  width: 10px;
+}
+
+.cantidad {
+  width: 10%;
+  min-width: 50px;
+  /* max-width: 500px; */
+  text-align: center;
+}
+.total-width {
+  width: 16.66666666666667%;
+  min-width: 100px;
+  max-width: 500px;
+  text-align: right;
+}
+
+.card-detalle {
+  max-width: 100% !important;
+}
+.row1 {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+
+}
+
+.column1 {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+  text-align: center;
+  /* border-style: double; */
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFA900;
+}
+.double-column1 {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 2;
+  text-align: center;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+  background-color: #FF7600;
+  font-size: 5em;
+}

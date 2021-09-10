@@ -27,7 +27,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatPaginatorImpl } from './mat-paginator';
 import { MatTabsModule } from '@angular/material/tabs';
 import {MatRadioModule} from '@angular/material/radio';
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 @NgModule({
   declarations: [],
   imports: [
@@ -58,7 +58,8 @@ import {MatRadioModule} from '@angular/material/radio';
     MatCardModule,
     MatGridListModule,
     MatTabsModule,
-    MatRadioModule
+    MatRadioModule,
+    MatProgressBarModule,
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: MatPaginatorImpl },

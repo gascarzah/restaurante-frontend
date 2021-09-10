@@ -1,4 +1,51 @@
-<form  [formGroup]="form" (ngSubmit)="operar()" #espForm="ngForm">
+<h1 mat-dialog-title>Registro Producto</h1>
+<div mat-dialog-content>
+
+  <mat-form-field>
+    <mat-label>Nombre</mat-label>
+    <input matInput [(ngModel)]="data.nombre" (keypress)="keyPressAlpha($event)" (ngModelChange)="data.nombre=$event.trim()" [disabled] = 'habilitado' >
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Descripcion</mat-label>
+    <input matInput [(ngModel)]="data.descripcion" (keypress)="keyPressAlpha($event)" (ngModelChange)="data.descripcion=$event.toUpperCase().trim()" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Precio</mat-label>
+    <input matInput [(ngModel)]="data.precio" (keypress)="keyPressAlphaNumericWithCharacters($event)" (ngModelChange)="data.precio=$event.toUpperCase().trim()" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Categoria</mat-label>
+    <mat-select placeholder="Selecciona categoria producto" [(value)]="categoriaProducto"
+    [compareWith]="objectComparisonFunction">
+
+       <mat-option *ngFor="let p of (categoriaProductos$ | async)" [value]="p" >
+           {{p.nombre}}
+       </mat-option>
+   </mat-select>
+</mat-form-field>
+
+
+  <mat-form-field>
+    <mat-label>Stock</mat-label>
+    <input matInput [(ngModel)]="data.stock"  (keypress)="keyPressNumbers($event)" (ngModelChange)="data.stock=$event.trim()" required>
+  </mat-form-field>
+
+
+<br/>
+
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="registrar()" >
+    <mat-icon>done</mat-icon>
+    <span>Aceptar</span>
+  </button>
+
+  <button mat-button [mat-dialog-close]="data.nombre" cdkFocusInitial>Cerrar</button>
+</div>
+
+<!-- <form  [formGroup]="form" (ngSubmit)="operar()" #espForm="ngForm">
 
 <div class="wrapper ">
 
@@ -74,22 +121,7 @@
 
   </div>
   <div class="aside2">
-    <!-- <table mat-table [dataSource]="dataSourceProductoDetalle" matSort  >
-      <ng-container matColumnDef="insumo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Insumo </th>
-        <td mat-cell *matCellDef="let element"> {{element.insumo.descripcion}} </td>
-    </ng-container>
-    <ng-container matColumnDef="cantidad">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
-          <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
-      </ng-container>
-      <ng-container matColumnDef="unidad">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Unidad </th>
-        <td mat-cell *matCellDef="let element"> {{element.unidad.nombre}} </td>
-    </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table> -->
+
 
   <mat-list role="list">
     <mat-list-item role="listitem" *ngFor="let ex of productoDetalleArr; let i = index">
@@ -99,15 +131,7 @@
         <button mat-raised-button color="warn" (click)="removerInsumo(i)">Remover</button>
     </mat-list-item>
 </mat-list>
-<!-- <table mat-table [dataSource]="productoDetalleArr" class="mat-elevation-z8">
-  <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
-    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
-  </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
-</table> -->
   </div>
 </div>
-</form>
+</form> -->

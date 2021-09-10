@@ -1,55 +1,37 @@
-import { TomaPedidoComponent } from './pages/toma-pedido/toma-pedido.component';
-import { PedidoComponent } from './pages/pedido/pedido.component';
-import { CategoriaInsumoEdicionComponent } from './pages/categoria-insumo/categoria-insumo-edicion/categoria-insumo-edicion.component';
-import { InsumoComponent } from './pages/insumo/insumo.component';
-import { ProductoEdicionComponent } from './pages/producto/producto-edicion/producto-edicion.component';
-import { ProductoComponent } from './pages/producto/producto.component';
-import { CategoriaInsumoComponent } from './pages/categoria-insumo/categoria-insumo.component';
-import { EmpleadoComponent } from './pages/empleado/empleado.component';
-import { ProveedorComponent } from './pages/proveedor/proveedor.component';
-import { CategoriaProductoComponent } from './pages/categoria-producto/categoria-producto.component';
-import { MesaComponent } from './pages/mesa/mesa.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ClienteComponent } from './pages/cliente/cliente.component';
+import { LayoutComponent } from './pages/layout/layout.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RecuperarComponent } from './pages/login/recuperar/recuperar.component';
+import { TokenComponent } from './pages/login/recuperar/token/token.component';
+import { Not404Component } from './pages/not404/not404.component';
 
 const routes: Routes = [
   {
-    path: 'cliente', component: ClienteComponent
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'login'
   },
   {
-    path: 'insumo', component: InsumoComponent
+    path: 'login',
+    component: LoginComponent
   },
   {
-    path: 'mesa', component: MesaComponent
-  },
-  {
-    path: 'categoria-insumo', component: CategoriaInsumoComponent, children: [
-      { path: 'nuevo', component: CategoriaInsumoEdicionComponent },
-      { path: 'edicion/:id', component: CategoriaInsumoEdicionComponent },
+    path: 'recuperar', component: RecuperarComponent, children: [
+      { path: ':token', component: TokenComponent }
     ]
   },
   {
-    path: 'categoria-producto', component: CategoriaProductoComponent
+    path: 'pages',
+    component: LayoutComponent,
+    loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule)
   },
+  { path: 'not-404', component: Not404Component },
   {
-    path: 'empleado', component: EmpleadoComponent
-  },
-  {
-    path: 'proveedor', component: ProveedorComponent
-  },
-  {
-    path: 'producto', component: ProductoComponent, children: [
-      { path: 'nuevo', component: ProductoEdicionComponent },
-      { path: 'edicion/:id', component: ProductoEdicionComponent },
-    ]
-  },
-  {
-    path: 'pedido', component: PedidoComponent
-  },
-  {
-    path: 'toma-pedido', component: TomaPedidoComponent
-  },
+    path: '**',
+    redirectTo: 'not-404'
+  }
+
 ];
 
 @NgModule({

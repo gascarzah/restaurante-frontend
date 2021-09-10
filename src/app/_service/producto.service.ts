@@ -45,4 +45,8 @@ export class ProductoService extends GenericService<Producto>{
  registrarTransaccion(productoDto: ProductoDto) {
   return this.http.post(this.url, productoDto);
 }
+
+  listarPorCategoria(idCategoriaProducto: number){
+    return this.http.get<Producto[]>(`${this.url}/categoria/${idCategoriaProducto}`);
+  }
 }

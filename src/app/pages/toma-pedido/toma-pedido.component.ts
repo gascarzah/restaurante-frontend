@@ -1,3 +1,9 @@
+import { ClienteService } from './../../_service/cliente.service';
+import { EmpleadoService } from './../../_service/empleado.service';
+import { Cliente } from 'src/app/_model/cliente';
+import { CategoriaProductoService } from './../../_service/categoria-producto.service';
+import { CategoriaProducto } from './../../_model/categoria-producto';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductoDetalle } from './../../_model/producto-detalle';
 
 import { ProductoService } from './../../_service/producto.service';
@@ -13,6 +19,7 @@ import { PedidoDetalle } from '../../_model/pedido-detalle';
 import { PedidoDto } from '../../_dto/pedidoDto';
 import { PedidoService } from '../../_service/pedido.service';
 import { switchMap } from 'rxjs/operators';
+import { Empleado } from 'src/app/_model/empleado';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,33 +29,48 @@ import { switchMap } from 'rxjs/operators';
 })
 export class TomaPedidoComponent implements OnInit {
   @Input() nombre: string;
-  mesas$: Observable<Mesa[]>;
+  // mesas$: Observable<Mesa[]>;
   productos$: Observable<Producto[]>;
   form: FormGroup
   edicion: boolean = false;
-  mesas: Mesa[] = []
+  // mesas: Mesa[] = []
   // producto: Producto
-  mesaSeleccionada: Mesa[]
+  // mesaSeleccionada: Mesa[]
   carta: Producto[]
   // pedido: Pedido
   // conteo: number = 0
   pedidoDetalleArr: PedidoDetalle[] = []
   // pedidosDetalle= new FormArray([]);
-
+  categoriaProducto: CategoriaProducto
+  categoriasProducto$: Observable<CategoriaProducto[]>;
+  total : number = 0
+  clienteSeleccionado: Cliente
+  clientes$: Observable<Cliente[]>;
+  mozoSeleccionado: Empleado
+  mozos$: Observable<Empleado[]>;
+  habilitado: boolean = true;
   constructor(private mesaService: MesaService,
               private productoService: ProductoService,
               private cdRef: ChangeDetectorRef,
               private fb: FormBuilder,
-              private pedidoService: PedidoService) { }
+              private pedidoService: PedidoService,
+              private snackBar: MatSnackBar,
+              private categoriaProductoService: CategoriaProductoService,
+              private clienteService: ClienteService,
+              private empleadoService: EmpleadoService,) { }
 
   ngOnInit(): void {
-  this.listarMesas()
-  this.listarProductos()
-
+    this.listarClientes()
+    this.listarMozos()
+  // this.listarMesas()
+  // this.listarProductos()
+  this.listarCategoriasProducto()
    this.form = this.fb.group({
       'id': new FormControl(0),
-      'mesas': new FormControl(''),
-      'producto': new FormControl(''),
+      // 'mesas': new FormControl(''),
+      'clientes': new FormControl(''),
+      'mozos': new FormControl(''),
+      'categoriaProducto': new FormControl(''),
       pedidosDetalle: this.fb.array([]),
 
    })
@@ -61,16 +83,30 @@ export class TomaPedidoComponent implements OnInit {
   }
 
   addPedidoDetalle(carta: Producto){
-    this.nombre = carta.nombre
-    const pedidoDetalleForm = this.fb.group({
+    let cont = 0;
+    for (let i = 0; i < this.pedidosDetalle.length; i++) {
+      let pedidoDetalle = this.pedidosDetalle.controls[i];
+      if (pedidoDetalle.value['producto'].idProducto === carta.idProducto) {
+        cont++;
+        break;
+      }
+    }
+
+    if (cont > 0) {
+      let mensaje = 'El producto se encuentra en la lista';
+      this.snackBar.open(mensaje, "Aviso", { duration: 2000 });
+    } else {
+      this.nombre = carta.nombre
+      const pedidoDetalleForm = this.fb.group({
       'producto': new FormControl(carta),
       'nombre': new FormControl(carta.nombre),
       'cantidad': new FormControl(0),
       'observacion': new FormControl(''),
     })
+    console.log(pedidoDetalleForm)
     this.pedidosDetalle.push(pedidoDetalleForm)
-    // this.pedidosDetalle.push(this.fb.group(new PedidoDetalle()))
-
+    this.habilitado = false
+    }
   }
 
   initForm() {
@@ -79,51 +115,68 @@ export class TomaPedidoComponent implements OnInit {
 
 
   registrarPedido() {
-    // console.log('entro a operar')
+
     let pedido = new Pedido()
     pedido.idPedido = this.form.value['id'];
-    // let mesa = new Mesa()
-    // pedido.mesa = this.form.value['mesas']
-
+    pedido.cliente = this.clienteSeleccionado;
+    pedido.empleado = this.mozoSeleccionado
+    let total = 0
     this.pedidosDetalle.controls.forEach((element, index) => {
       let pedidoDetalle = new PedidoDetalle()
       pedidoDetalle.cantidad = element.value['cantidad']
       pedidoDetalle.observacion = element.value['observacion']
       pedidoDetalle.producto =element.value['producto']
       this.pedidoDetalleArr.push(pedidoDetalle)
-      // console.log('comienzo')
-      // console.log(element.value['producto'])
-      // console.log(element.value['nombre'])
-      // console.log(element.value['cantidad'])
-      // console.log(element.value['observacion'])
+      total = total + pedidoDetalle.cantidad * pedidoDetalle.producto.precio
     })
+    this.total = total
+    pedido.total = this.total
 
     const pedidoDto = new PedidoDto()
     pedidoDto.pedido = pedido;
     pedidoDto.pedidoDetalles = this.pedidoDetalleArr
-    let mesas = this.form.value['mesas']
-    pedidoDto.mesas = mesas
-    console.log(pedidoDto)
-    this.pedidoService.registrarTransaccion(pedidoDto).pipe(switchMap(() => {
-      return this.pedidoService.listar();
-    })).subscribe(data => {
-      this.pedidoService.setPedidoCambio(data);
-      this.pedidoService.setMensajeCambio("Se modificó");
-    });
+    // let mesas = this.form.value['mesas']
+    // pedidoDto.mesas = mesas
+
+    this.pedidoService.registrarTransaccion(pedidoDto).subscribe(data => {
+      this.snackBar.open("SE REGISTRO", "Aviso", { duration: 2000 });
+      this.listarClientes()
+      this.listarMozos()
+      this.listarCategoriasProducto()
+  });
+  this.clienteSeleccionado = new Cliente();
+  this.mozoSeleccionado = new Empleado()
+  this.categoriaProducto = new CategoriaProducto()
+  this.carta = []
+  // this.mesaSeleccionada = []
+  this.pedidosDetalle.controls = []
+  this.habilitado = true
   }
 
-  listarMesas() {
-    this.mesas$ = this.mesaService.listar();
+  // listarMesas() {
+  //   this.mesas$ = this.mesaService.listar();
+  // }
+  listarClientes() {
+    this.clientes$ = this.clienteService.listar();
+  }
+  listarMozos() {
+    this.mozos$ = this.empleadoService.listar();
   }
 
-  listarProductos() {
-    this.productos$ = this.productoService.listar();
-    this.productos$.subscribe(productos => this.carta = productos)
+  listarCategoriasProducto() {
+    this.categoriasProducto$ = this.categoriaProductoService.listar();
   }
 
-  removerMesa(index: number) {
-    this.mesaSeleccionada.splice(index, 1);
-  }
+//  removerMozo(index: number) {
+//     this.mozoSeleccionado.splice(index, 1);
+//   }
+
+  // removerCliente(index: number) {
+  //   this.clienteSeleccionado.splice(index, 1);
+  // }
+  // removerMesa(index: number) {
+  //   this.mesaSeleccionada.splice(index, 1);
+  // }
 
   productoEscogido(carta: Producto){
     this.addPedidoDetalle(carta)
@@ -149,5 +202,8 @@ export class TomaPedidoComponent implements OnInit {
     return this.pedidosDetalle.controls[i].value['nombre']
    }
 
-
+   seleccionProductoCategoria(c: CategoriaProducto){
+    this.productos$ = this.productoService.listarPorCategoria(c.idCategoriaProducto);
+    this.productos$.subscribe(productos => this.carta = productos)
+   }
 }

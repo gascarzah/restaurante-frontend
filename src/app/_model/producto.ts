@@ -10,5 +10,5 @@ export class Producto{
   precio: number;
   categoriaProducto: CategoriaProducto;
   destino: Destino;
-
+  stock: number;
 }

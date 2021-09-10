@@ -1,3 +1,4 @@
+import { PedidoMesaDto } from './../_dto/pedidoMesaDto';
 import { Injectable } from '@angular/core';
 import { Pedido } from '../_model/pedido';
 import { GenericService } from './generic.service';
@@ -43,6 +44,14 @@ export class PedidoService extends GenericService<Pedido>{
 
  registrarTransaccion(pedidoDto: PedidoDto) {
   return this.http.post(this.url, pedidoDto);
+}
+
+listarPorPedidoMesa(){
+  return this.http.get<PedidoMesaDto[]>(`${this.url}/mesas`);
+}
+
+actualizarEstado(pedido: Pedido) {
+  return this.http.post(`${this.url}/actualizarEstado`, pedido);
 }
 }
 

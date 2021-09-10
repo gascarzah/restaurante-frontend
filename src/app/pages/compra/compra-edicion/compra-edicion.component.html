@@ -1,0 +1,161 @@
+<form [formGroup]="form" (ngSubmit)="registrar()" #espForm="ngForm">
+
+  <div class="wrapper ">
+
+    <div class="aside">
+      <mat-toolbar>Insumos</mat-toolbar>
+      <mat-form-field appearance="fill">
+        <mat-label>Insumo</mat-label>
+        <mat-select placeholder="Selecciona insumo" [(value)]="insumo" formControlName="insumo"
+          (ngModelChange)="seleccionInsumo(insumo)" [compareWith]="objectCompraComparacionFunction">
+          <mat-option value="">Selecciona insumo</mat-option>
+          <mat-option *ngFor="let p of (insumos$ | async)" [value]="p">
+            {{p.descripcion}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Cantidad</mat-label>
+        <input matInput placeholder="Cantidad" required formControlName="cantidad" [(ngModel)]="cantidad">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Precio unidad</mat-label>
+        <input matInput placeholder="Precio unidad" required formControlName="precioUnidad" [(ngModel)]="precioUnidad">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>stock</mat-label>
+        <input matInput placeholder="Stock" formControlName="stock" [(ngModel)]="stock" readonly>
+      </mat-form-field>
+      <div class="inner">
+        <button mat-raised-button type="button" (click)="agregarInsumo()">
+          <mat-icon>done</mat-icon>
+          <span>Agregar</span>
+        </button>
+        <button mat-raised-button color="accent" routerLink='/producto' type="button">
+          <mat-icon>close</mat-icon>
+          <span>Cancelar</span>
+        </button>
+      </div>
+
+      <!-- <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let ex of compraDetalleArr; let i = index">
+        <p class="b"><span style="font-weight: bold;"> INSUMO:</span> {{ex.insumo.descripcion}} &nbsp; </p>&nbsp;
+        <p class="b"><span style="font-weight: bold;"> UNIDAD:</span> {{ex.insumo.unidad.nombre}} &nbsp; </p>&nbsp;
+        <p class="b"><span style="font-weight: bold;">CANTIDAD:</span>  {{ex.cantidad}} &nbsp; </p>&nbsp;
+          <p class="b"><span style="font-weight: bold;">UNIDAD:</span>  {{ex.precioUnidad}} &nbsp; </p>&nbsp;
+          <p class="b"><span style="font-weight: bold;">TOTAL:</span>  {{ex.total}} &nbsp; </p>&nbsp;
+          <button mat-raised-button color="warn" (click)="removerCompra(i)">Remover</button>
+      </mat-list-item>
+  </mat-list> -->
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">INSUMO</th>
+            <th scope="col">UNIDAD</th>
+            <th scope="col" class="texto-derecha">CANTIDAD</th>
+            <th scope="col" class="texto-derecha">PRECIO</th>
+            <th scope="col" class="texto-derecha">TOTAL</th>
+            <th scope="col" class="texto-derecha">Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ex of compraDetalleArr; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td class="texto-centrado">{{ex.insumo.descripcion}} </td>
+            <td class="texto-centrado">{{ex.insumo.unidad.nombre}}</td>
+            <td class="texto-derecha">{{ex.cantidad}}</td>
+            <td class="texto-derecha">{{ex.precioUnidad}}</td>
+            <td class="texto-derecha">{{ex.total}}</td>
+            <td class="texto-derecha">
+            <button mat-raised-button color="warn" (click)="removerCompra(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+    </div>
+    <div class="aside2">
+      <div class='row'>
+        <div class='column'>
+          <mat-icon class="icon-display">account_balance_wallet</mat-icon>
+        </div>
+        <div class='double-column'>
+          S/.{{total}}
+        </div>
+      </div>
+
+      <div class='row'>
+        <!-- <div class='column1'>
+           compra
+        </div> -->
+        <!-- <div class='column2'> -->
+        <mat-form-field appearance="fill">
+          <mat-label>Codigo Compra</mat-label>
+          <input matInput required formControlName="codigoCompra" [(ngModel)]="codigoCompra">
+        </mat-form-field>
+        <!-- </div> -->
+      </div>
+      <div class='row'>
+        <!-- <div class='column2'> -->
+        <mat-form-field appearance="fill">
+          <mat-label>Proveedor</mat-label>
+          <mat-select placeholder="Selecciona proveedor" [(value)]="proveedor" formControlName="proveedor"
+            [compareWith]="objectProveedorComparacionFunction">
+            <mat-option value="">Selecciona proveedor</mat-option>
+            <mat-option *ngFor="let p of (proveedores$ | async)" [value]="p">
+              {{p.razonSocial}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- </div> -->
+      </div>
+      <div class='row'>
+        <div class='column1'>
+          <mat-form-field appearance="fill">
+            <mat-label>Tipo Recibo</mat-label>
+            <mat-select placeholder="Selecciona tipo recibo" [(value)]="tipoRecibo" formControlName="tipoRecibo"
+              [compareWith]="objectProveedorComparacionFunction">
+              <mat-option value="">Selecciona tipoRecibo</mat-option>
+              <mat-option *ngFor="let p of (tipoRecibos$ | async)" [value]="p">
+                {{p.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class='column2'>
+          <mat-form-field appearance="fill">
+            <mat-label>Numero</mat-label>
+            <input matInput formControlName="numeroRecibo" [(ngModel)]="numeroRecibo">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='column1'>valor</div>
+        <div class='column2'> S/.{{valor}}</div>
+      </div>
+      <div class='row'>
+        <div class='column1'>IGV</div>
+        <div class='column2'> S/.{{igv}}</div>
+      </div>
+      <div class='row'>
+        <div class='column1'>Total</div>
+        <div class='column2'> S/.{{total}}</div>
+      </div>
+      <div >
+        <button mat-raised-button color="primary"  type="submit">
+          <mat-icon>done</mat-icon>
+          <span>Aceptar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</form>

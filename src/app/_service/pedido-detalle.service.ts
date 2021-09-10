@@ -39,8 +39,8 @@ export class PedidoDetalleService extends GenericService<PedidoDetalle>{
  getPedidoDetalleCambio(){
    return this.pedidoDetalleCambio.asObservable();
  }
- listarPedidosDetalle(id: number) {
-  return this.http.get<PedidoDetalle[]>(`${this.url}/${id}`);
+ listarPedidoDetallePorPedido(id: number) {
+  return this.http.get<PedidoDetalle[]>(`${this.url}/pedido/${id}`);
 }
 
 }

@@ -11,6 +11,7 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { CategoriaProducto } from 'src/app/_model/categoria-producto';
 
 @Component({
   selector: 'app-producto',
@@ -19,7 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ProductoComponent implements OnInit {
 
-  displayedColumns = [ 'nombre', 'categoria','descripcion', 'precio', 'activo',  'acciones'];
+  displayedColumns = [ 'nombre','descripcion', 'categoria', 'precio', 'stock',  'acciones'];
 
   dataSource: MatTableDataSource<Producto>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -27,6 +28,11 @@ export class ProductoComponent implements OnInit {
   cantidad: number = 0;
 //para los dialogos de mantenimiento
 
+nombre: string = '';
+descripcion: string= '';
+precio: string= '';
+categoriaProducto: CategoriaProducto = new CategoriaProducto();
+stock: number = 0;
 
 activo: boolean = true;
 
@@ -98,6 +104,49 @@ activo: boolean = true;
   }
 
 
+  openDialog(): void {
+
+    const dialogRef = this.dialog.open(ProductoEdicionComponent, {
+      width: '500px',
+      // height: '600px',
+      maxHeight: '600px',
+      data: {
+            nombre: this.nombre,
+            descripcion: this.descripcion,
+            precio: this.precio,
+            categoriaProducto: this.categoriaProducto,
+            stock: this.stock
+
+             }
+
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`The dialog was closed  ${result}`);
+    });
+  }
+
+  openDialogMod(element: any): void {
+
+    const dialogRef = this.dialog.open(ProductoEdicionComponent, {
+      width: '500px',
+      maxHeight: '600px',
+      data: {idProducto: element.idProducto,
+        nombre: element.nombre,
+        descripcion: element.descripcion,
+        precio: element.precio,
+        categoriaProducto: element.categoriaProducto,
+        stock: element.stock}
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`The dialog was closed  ${result}`);
+
+    });
+
+  }
 
 
 

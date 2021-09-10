@@ -1,0 +1,142 @@
+
+<form [formGroup]="form" (ngSubmit)="registrarVenta()" #espForm="ngForm">
+
+  <div class="wrapper ">
+
+
+    <div class="aside">
+      <mat-toolbar>Pedidos en </mat-toolbar>
+
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let ex of pedidoMesaArr; let i = index">
+          <div id='item' class="b" (click)="listarDetalles(ex)"> Mesa: {{ex.numMesa}} </div>
+        </mat-list-item>
+    </mat-list>
+    </div>
+    <div class="aside">
+      <mat-toolbar>Detalle </mat-toolbar>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" class="texto-izquierda">Producto</th>
+            <th scope="col" class="texto-derecha">CANTIDAD</th>
+            <th scope="col" class="texto-derecha">PRECIO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ex of pedidoDetalleArr; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td class="texto-izquierda" >{{ex.producto.nombre}} </td>
+            <td class="texto-derecha">{{ex.cantidad}}</td>
+            <td class="texto-derecha">{{ex.producto.precio}}</td>
+            <!-- <td class="texto-derecha">{{ex.precioUnidad}}</td>
+            <td class="texto-derecha">{{ex.total}}</td>
+            <td class="texto-derecha">
+            <button mat-raised-button color="warn" (click)="removerCompra(i)">
+              <mat-icon>delete</mat-icon>
+            </button> -->
+          <!-- </td> -->
+          </tr>
+        </tbody>
+      </table>
+
+
+    <!-- <mat-list role="list">
+      <mat-list-item  role="listitem" *ngFor="let ex of pedidoDetalleArr; let i = index" >
+        <div id='item' class="b" >{{ex.producto.nombre}}</div>
+        <div id='item' class="b" >{{ex.cantidad}}</div>
+        <div id='item' class="b" >{{ex.producto.precio}}</div>
+      </mat-list-item>
+    </mat-list> -->
+
+
+    </div>
+    <div class="aside2">
+
+      <div class='row'>
+        <div class='column'>
+          <mat-icon class="icon-display">account_balance_wallet</mat-icon>
+        </div>
+        <div class='double-column'>
+          S/.{{total}}
+        </div>
+      </div>
+
+
+
+        <div class='row'>
+
+            <mat-form-field appearance="fill">
+              <mat-label>numero de venta</mat-label>
+              <input matInput  formControlName="numVenta" >
+            </mat-form-field>
+        </div>
+        <div class='row'>
+            <mat-form-field appearance="fill">
+              <mat-label>Cliente</mat-label>
+              <mat-select placeholder="Selecciona cliente"  formControlName="cliente">
+                <mat-option value="">Selecciona cliente</mat-option>
+                <mat-option *ngFor="let p of (clientes$ | async)" [value]="p">
+                  {{p.apellidoPaterno }} {{p.apellidoMaterno}}, {{p.nombres}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class='row'>
+            <!-- <mat-form-field appearance="fill">
+              <mat-label>recibo</mat-label>
+              <input matInput placeholder="recibo" formControlName="recibo" readonly>
+            </mat-form-field> -->
+
+            <mat-form-field appearance="fill">
+              <mat-label>Recibo</mat-label>
+              <mat-select placeholder="Selecciona tipo de recibo"  formControlName="tipoRecibo">
+                <mat-option value="">Selecciona recibo</mat-option>
+                <mat-option *ngFor="let p of (tipoRecibos$ | async)" [value]="p">
+                  {{p.nombre }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class='row'>
+            <mat-form-field appearance="fill">
+              <mat-label>efectivo</mat-label>
+              <input matInput  formControlName="efectivo" placeholder="0" [(ngModel)]="efectivo" (ngModelChange)="calculoDiferenciaEfectivo(efectivo)">
+            </mat-form-field>
+          </div>
+           <div class='row'>
+            <mat-form-field appearance="fill">
+              <mat-label>visa</mat-label>
+              <input matInput formControlName="visa" placeholder="0" [(ngModel)]="visa" (ngModelChange)="calculoDiferenciaVisa(visa)">
+            </mat-form-field>
+          </div>
+         <div class='row'>
+            <mat-form-field appearance="fill">
+              <mat-label>mastercard</mat-label>
+              <input matInput  formControlName="mastercard" placeholder="0" [(ngModel)]="mastercard" (ngModelChange)="calculoDiferenciaMastercard(mastercard)">
+            </mat-form-field>
+          </div>
+          <div class='row'>
+            <mat-form-field appearance="fill">
+              <mat-label>vuelto</mat-label>
+              <input matInput formControlName="vuelto"  [(ngModel)]="vuelto" readonly>
+            </mat-form-field>
+          </div>
+          <div >
+            <button mat-raised-button color="primary"  type="submit">
+              <mat-icon>done</mat-icon>
+              <span>Aceptar</span>
+            </button>
+          </div>
+
+
+
+
+      </div>
+
+    </div>
+
+
+</form>

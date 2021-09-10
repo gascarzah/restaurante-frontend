@@ -1,0 +1,98 @@
+<form  [formGroup]="form" (ngSubmit)="registrarPedido()" #espForm="ngForm">
+
+  <div class="wrapper ">
+
+
+    <div class="aside">
+   <mat-toolbar>Mesas :
+    <div [hidden]="true">
+      <mat-form-field appearance="fill">
+          <input matInput placeholder="ID" required formControlName="id">
+      </mat-form-field>
+  </div>
+
+      <mat-form-field appearance="fill">
+               <mat-select placeholder="Selecciona mesa" [(value)]="mesaSeleccionada" formControlName="mesas" multiple>
+                  <mat-option *ngFor="let p of (mesas$ | async)" [value]="p" >
+                      {{p.codigo}}
+                  </mat-option>
+              </mat-select>
+      </mat-form-field>
+    </mat-toolbar>
+      <!-- <button mat-raised-button color="primary" type="submit" >Registrar</button> -->
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let ex of mesaSeleccionada; let i = index">
+          <p class="b"><span style="font-weight: bold;"> Mesa:</span> {{ex.codigo}} &nbsp; </p>&nbsp;
+
+            <button mat-raised-button color="warn" (click)="removerMesa(i)">Remover</button>
+        </mat-list-item>
+    </mat-list>
+    </div>
+    <div class="aside">
+      <mat-toolbar>Carta :
+       <mat-form-field appearance="fill">
+        <mat-select placeholder="Selecciona catgeoria"  formControlName="categoriaProducto" [(value)]="categoriaProducto" (ngModelChange)="seleccionProductoCategoria(categoriaProducto)">
+        <mat-option value="">Selecciona Categoria</mat-option>
+           <mat-option *ngFor="let p of (categoriasProducto$ | async)" [value]="p" >
+               {{p.nombre}}
+           </mat-option>
+       </mat-select>
+      </mat-form-field>
+    </mat-toolbar>
+    <mat-list role="list">
+      <mat-list-item  role="listitem" *ngFor="let ex of carta; let i = index" >
+        <div id='item' class="b" (click)="productoEscogido(ex)">{{ex.nombre}}</div>
+      </mat-list-item>
+  </mat-list>
+
+    </div>
+    <div class="aside2">
+      <mat-toolbar>Pedido</mat-toolbar>
+
+
+       <!-- <ng-container formArrayName='pedidosDetalle'>
+         <ng-container *ngFor='let pedidoForm of pedidosDetalle.controls; let i = index' > -->
+
+          <div formArrayName='pedidosDetalle'>
+
+
+           <div class="display-table"   *ngFor='let pedidoForm of pedidosDetalle.controls; let i = index' formGroupName="{{i}}">
+
+            <div >
+              <label>{{getNameLabel(i)}}</label>
+              <!-- <mat-form-field  class="example-form-field-nombre1" >
+                <input matInput  formControlName="nombre"  readonly >
+             </mat-form-field> -->
+          </div>
+            <div>
+             <button type="button" aria-label="Agregar Producto" mat-flat-button  color="primary" (click)="agregarCantidad(i)">
+               <mat-icon>add</mat-icon>
+             </button>
+
+             <mat-form-field  class="example-form-field" >
+               <input matInput  formControlName="cantidad" readonly >
+            </mat-form-field>
+            <!-- <mat-label>{{getCantidadLabel(i)}}</mat-label> -->
+             <button type="button" color="primary" aria-label="Remover Producto" mat-raised-button (click)="removerCantidad(i)" mat-flat-button>
+               <mat-icon>remove</mat-icon>
+             </button>
+           </div>
+           <div>
+           <mat-form-field class="example-full-width">
+            <mat-label>Observacion</mat-label>
+            <textarea matInput placeholder="Escribir una observacion" formControlName="observacion"></textarea>
+          </mat-form-field>
+        </div>
+           </div>
+
+         </div>
+         <button mat-raised-button color="primary"  >Registrar</button>
+        </div>
+
+         <!-- </ng-container>
+       </ng-container> -->
+
+
+    </div>
+
+  </form>

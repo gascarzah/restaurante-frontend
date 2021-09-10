@@ -1,3 +1,4 @@
+import { CategoriaProducto } from 'src/app/_model/categoria-producto';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
@@ -30,6 +31,10 @@ export class GenericService<T> {
   eliminar(id: number) {
     return this.http.delete(`${this.url}/${id}`);
   }
+
+  // listarPorCategoria(idCategoriaProducto: number){
+  //   return this.http.get<T[]>(`${this.url}/categoria/${idCategoriaProducto}`);
+  // }
 
 
 }
