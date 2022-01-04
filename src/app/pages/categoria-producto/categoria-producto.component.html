@@ -4,6 +4,7 @@
   <mat-form-field >
       <input matInput #filtro (keyup)="filtrar(filtro.value)" placeholder="Buscar Categoria Producto">
   </mat-form-field>
+
 </div>
 
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">

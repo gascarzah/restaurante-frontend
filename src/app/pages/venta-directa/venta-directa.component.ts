@@ -28,6 +28,7 @@ import { PedidoDetalle } from 'src/app/_model/pedido-detalle';
 import { PedidoService } from 'src/app/_service/pedido.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TipoPedido } from 'src/app/_model/tipo-pedido';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,7 +49,7 @@ export class VentaDirectaComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   cantidad: number = 0;
-  @ViewChild(MatTable,{static:true}) table: MatTable<any>;
+  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
 
   tipoRecibos$: Observable<TipoRecibo[]>;
   form: FormGroup
@@ -73,37 +74,37 @@ export class VentaDirectaComponent implements OnInit {
 
   filteredOptions: Observable<Cliente[]>;
   // dataSource: FormGroup[] = []
-  total : number = 0.0;
+  total: number = 0.0;
   displayedColumns = [
     'expandir',
     // 'idPedido',
-  'cliente',
-  'mozo',
-  // 'precio',
-  'estado',
-  'descripcion',
-  'acciones',
+    'cliente',
+    'mozo',
+    // 'precio',
+    'estado',
+    'descripcion',
+    'acciones',
 
-];
+  ];
 
-displayedColumnsDetalle = [
-  'producto',
-  'cantidad'
-]
+  displayedColumnsDetalle = [
+    'producto',
+    'cantidad'
+  ]
 
 
-efectivo: number = 0
-tempEfectivo: number = 0
-visa: number = 0
-tempVisa: number = 0
-mastercard: number = 0
-tempMasterCard: number = 0
-vuelto: number = 0.0
+  efectivo: number = 0
+  tempEfectivo: number = 0
+  visa: number = 0
+  tempVisa: number = 0
+  mastercard: number = 0
+  tempMasterCard: number = 0
+  vuelto: number = 0.0
 
-pedidoDetalleArr: PedidoDetalle[] = []
-productoArr : Producto[] = []
+  pedidoDetalleArr: PedidoDetalle[] = []
+  productoArr: Producto[] = []
 
-expandedElement: Pedido | null;
+  expandedElement: Pedido | null;
 
 
   isTableExpanded = false;
@@ -165,7 +166,7 @@ expandedElement: Pedido | null;
     });
 
 
-      console.log('entro')
+    console.log('entro')
     this.pedidoService.listarPageable(0, 5).subscribe(data => {
       console.log('listarPAginado')
       console.log(data)
@@ -183,7 +184,7 @@ expandedElement: Pedido | null;
     this.dataSource.sort = this.sort;
   }
 
-  get pedidosDetalle(){
+  get pedidosDetalle() {
     return this.form.controls['pedidosDetalle'] as FormArray
   }
 
@@ -201,7 +202,7 @@ expandedElement: Pedido | null;
 
 
 
-  filtrarProductos(val: any){
+  filtrarProductos(val: any) {
     if (val != null && val.idProducto > 0) {
       return this.productos.filter(el =>
         el.nombre.toLowerCase().includes(val.nombre.toLowerCase())
@@ -213,7 +214,7 @@ expandedElement: Pedido | null;
     );
   }
 
-  filtrarClientes(val: any){
+  filtrarClientes(val: any) {
     if (val != null && val.idCliente > 0) {
       return this.clientes.filter(el =>
         el.nombres.toLowerCase().includes(val.nombres.toLowerCase()) || el.apellidoPaterno.toLowerCase().includes(val.apellidoPaterno.toLowerCase()) || el.apellidoMaterno.toLowerCase().includes(val.apellidoMaterno.toLowerCase()) || el.dni.includes(val.dni)
@@ -225,7 +226,7 @@ expandedElement: Pedido | null;
     );
   }
 
-  filtrarEmpleados(val: any){
+  filtrarEmpleados(val: any) {
     if (val != null && val.idEmpleado > 0) {
       return this.empleados.filter(el =>
         el.nombres.toLowerCase().includes(val.nombres.toLowerCase()) || el.apellidoPaterno.toLowerCase().includes(val.apellidoPaterno.toLowerCase()) || el.apellidoMaterno.toLowerCase().includes(val.apellidoMaterno.toLowerCase()) || el.dni.includes(val.dni)
@@ -273,14 +274,15 @@ expandedElement: Pedido | null;
       width: '500px',
       // height: '600px',
       maxHeight: '600px',
-      data: {nombres: this.nombres,
-             apellidoPaterno: this.apellidoPaterno,
-             apellidoMaterno: this.apellidoMaterno,
-             telefono: this.telefono,
-             email: this.email,
-             direccion: this.direccion,
+      data: {
+        nombres: this.nombres,
+        apellidoPaterno: this.apellidoPaterno,
+        apellidoMaterno: this.apellidoMaterno,
+        telefono: this.telefono,
+        email: this.email,
+        direccion: this.direccion,
 
-            }
+      }
     });
 
 
@@ -295,7 +297,7 @@ expandedElement: Pedido | null;
   onSelectionChanged(event: any) {
     let producto = event.option.value
 
-    if(producto !== null || producto !== undefined) {
+    if (producto !== null || producto !== undefined) {
 
       let cont = 0;
       for (let i = 0; i < this.pedidosDetalle.length; i++) {
@@ -313,26 +315,26 @@ expandedElement: Pedido | null;
       } else {
         // this.nombre = producto.nombre
         const pedidoDetalleForm = this.fb.group({
-        'categoria': new FormControl(producto.categoriaProducto.nombre),
-        'producto': new FormControl(producto),
-        'nombre': new FormControl(producto.nombre),
-        'cantidad': new FormControl(0),
-        'precio': new FormControl(producto.precio),
-        'stock': new FormControl(producto.stock),
-        'importe': new FormControl(0)
-      })
-      console.log(pedidoDetalleForm)
-      this.pedidosDetalle.push(pedidoDetalleForm)
-      this.myControlProducto.setValue('');
+          'categoria': new FormControl(producto.categoriaProducto.nombre),
+          'producto': new FormControl(producto),
+          'nombre': new FormControl(producto.nombre),
+          'cantidad': new FormControl(0),
+          'precio': new FormControl(producto.precio),
+          'stock': new FormControl(producto.stock),
+          'importe': new FormControl(0)
+        })
+        console.log(pedidoDetalleForm)
+        this.pedidosDetalle.push(pedidoDetalleForm)
+        this.myControlProducto.setValue('');
       }
     }
- }
+  }
 
 
 
-  onEnter(){
+  onEnter() {
 
-    if(this.form.value['producto'] !== ''){
+    if (this.form.value['producto'] !== '') {
       let producto = new Producto()
       producto = this.form.value['producto']
       let cont = 0;
@@ -351,22 +353,22 @@ expandedElement: Pedido | null;
       } else {
         // this.nombre = producto.nombre
         const pedidoDetalleForm = this.fb.group({
-        'categoria': new FormControl(producto.categoriaProducto.nombre),
-        'producto': new FormControl(producto),
-        'nombre': new FormControl(producto.nombre),
-        'cantidad': new FormControl(0),
-        'precio': new FormControl(producto.precio),
-        'stock': new FormControl(producto.stock),
-        'importe': new FormControl(0)
-      })
+          'categoria': new FormControl(producto.categoriaProducto.nombre),
+          'producto': new FormControl(producto),
+          'nombre': new FormControl(producto.nombre),
+          'cantidad': new FormControl(0),
+          'precio': new FormControl(producto.precio),
+          'stock': new FormControl(producto.stock),
+          'importe': new FormControl(0)
+        })
 
-      this.pedidosDetalle.push(pedidoDetalleForm)
-      this.myControlProducto.setValue('');
+        this.pedidosDetalle.push(pedidoDetalleForm)
+        this.myControlProducto.setValue('');
       }
     }
   }
 
-  removerProducto(i: number){
+  removerProducto(i: number) {
 
     let importe = this.pedidosDetalle.controls[i].value['importe']
     console.log(importe)
@@ -374,134 +376,137 @@ expandedElement: Pedido | null;
     this.pedidosDetalle.controls.splice(i, 1);
   }
 
-  getCategorioLabel(i: number){
+  getCategorioLabel(i: number) {
     return this.pedidosDetalle.controls[i].value['categoria']
-   }
-   getProductoLabel(i: number){
+  }
+  getProductoLabel(i: number) {
     return this.pedidosDetalle.controls[i].value['nombre']
-   }
-   getCantidadLabel(i: number){
+  }
+  getCantidadLabel(i: number) {
     return this.pedidosDetalle.controls[i].value['cantidad']
-   }
-   getPrecioLabel(i: number){
+  }
+  getPrecioLabel(i: number) {
     return this.pedidosDetalle.controls[i].value['precio']
-   }
-   getStockLabel(i: number){
+  }
+  getStockLabel(i: number) {
     return this.pedidosDetalle.controls[i].value['stock']
-   }
-   getImporteLabel(i: number){
+  }
+  getImporteLabel(i: number) {
     return this.pedidosDetalle.controls[i].value['importe']
-   }
+  }
 
-   getTotalLabel(){
+  getTotalLabel() {
 
     return Number(this.total.toFixed(2))
-   }
+  }
 
-removerCantidad(i: number){
-  let conteo =  this.pedidosDetalle.controls[i].value['cantidad']
-  if(conteo > 0){
-  conteo = conteo - 1
-  this.pedidosDetalle.at(i).get('cantidad')?.patchValue(conteo)
+  removerCantidad(i: number) {
+    let conteo = this.pedidosDetalle.controls[i].value['cantidad']
+    if (conteo > 0) {
+      conteo = conteo - 1
+      this.pedidosDetalle.at(i).get('cantidad')?.patchValue(conteo)
 
-  //calcular stock
-  let stock =  this.pedidosDetalle.controls[i].value['stock']
-  stock = stock + 1
-  this.pedidosDetalle.at(i).get('stock')?.patchValue(stock)
-  //calcular precio
-  let precio =  this.pedidosDetalle.controls[i].value['precio']
-  let importe = conteo * precio
-  this.pedidosDetalle.at(i).get('importe')?.patchValue(importe)
+      //calcular stock
+      let stock = this.pedidosDetalle.controls[i].value['stock']
+      stock = stock + 1
+      this.pedidosDetalle.at(i).get('stock')?.patchValue(stock)
+      //calcular precio
+      let precio = this.pedidosDetalle.controls[i].value['precio']
+      let importe = conteo * precio
+      this.pedidosDetalle.at(i).get('importe')?.patchValue(importe)
 
 
-    if(this.total > 0){
-    this.total -= precio
+      if (this.total > 0) {
+        this.total -= precio
+      }
     }
   }
-}
-agregarCantidad(i: number){
+  agregarCantidad(i: number) {
 
-//funciona el de abajo
-let conteo =  this.pedidosDetalle.controls[i].value['cantidad']
-conteo = conteo + 1
-this.pedidosDetalle.at(i).get('cantidad')?.patchValue(conteo)
-//calcular precio
-let precio =  this.pedidosDetalle.controls[i].value['precio']
-let importe = conteo * precio
-this.pedidosDetalle.at(i).get('importe')?.patchValue(importe)
-//calcular stock
-let stock =  this.pedidosDetalle.controls[i].value['stock']
- stock = stock - 1
-this.pedidosDetalle.at(i).get('stock')?.patchValue(stock)
-this.total += precio
+    //funciona el de abajo
+    let conteo = this.pedidosDetalle.controls[i].value['cantidad']
+    conteo = conteo + 1
+    this.pedidosDetalle.at(i).get('cantidad')?.patchValue(conteo)
+    //calcular precio
+    let precio = this.pedidosDetalle.controls[i].value['precio']
+    let importe = conteo * precio
+    this.pedidosDetalle.at(i).get('importe')?.patchValue(importe)
+    //calcular stock
+    let stock = this.pedidosDetalle.controls[i].value['stock']
+    stock = stock - 1
+    this.pedidosDetalle.at(i).get('stock')?.patchValue(stock)
+    this.total += precio
 
-}
+  }
 
-calculoDiferenciaEfectivo(efectivo: number) {
+  calculoDiferenciaEfectivo(efectivo: number) {
 
-  if (efectivo > 0) {
-    this.efectivo = efectivo
-    this.tempEfectivo = efectivo
-    this.vuelto = this.total - this.efectivo - this.visa - this.mastercard
-    if(this.vuelto > 0){
-      this.vuelto = Number(this.vuelto.toFixed(2))
-    }else{
-      this.vuelto = 0
-    }
-  } else {
-    if (this.total === (Number(this.vuelto) + Number(this.tempEfectivo))) {
-      this.vuelto = 0
+    if (efectivo > 0) {
+      this.efectivo = efectivo
+      this.tempEfectivo = efectivo
+      this.vuelto = this.total - this.efectivo - this.visa - this.mastercard
+      if (this.vuelto > 0) {
+        this.vuelto = Number(this.vuelto.toFixed(2))
+      } else {
+        this.vuelto = 0
+      }
     } else {
-      this.vuelto = Number(this.vuelto) + Number(this.tempVisa)
+      if (this.total === (Number(this.vuelto) + Number(this.tempEfectivo))) {
+        this.vuelto = 0
+      } else {
+        this.vuelto = Number(this.vuelto) + Number(this.tempVisa)
+      }
     }
   }
-}
 
-calculoDiferenciaVisa(visa: number) {
-  if (visa > 0) {
-    this.visa = visa
-    this.tempVisa = visa
-    this.vuelto = this.total - this.efectivo - this.visa - this.mastercard
-    if(this.vuelto > 0){
-      this.vuelto = Number(this.vuelto.toFixed(2))
-    }else{
-      this.vuelto = 0
-    }
-  } else {
-
-    if (this.total === (Number(this.vuelto) + Number(this.tempVisa))) {
-      this.vuelto = 0
+  calculoDiferenciaVisa(visa: number) {
+    if (visa > 0) {
+      this.visa = visa
+      this.tempVisa = visa
+      this.vuelto = this.total - this.efectivo - this.visa - this.mastercard
+      if (this.vuelto > 0) {
+        this.vuelto = Number(this.vuelto.toFixed(2))
+      } else {
+        this.vuelto = 0
+      }
     } else {
-      this.vuelto = Number(this.vuelto) + Number(this.tempEfectivo)
+
+      if (this.total === (Number(this.vuelto) + Number(this.tempVisa))) {
+        this.vuelto = 0
+      } else {
+        this.vuelto = Number(this.vuelto) + Number(this.tempEfectivo)
+      }
     }
+
   }
 
-}
-
-calculoDiferenciaMastercard(mastercard: number) {
-  if (mastercard > 0) {
-    this.mastercard = mastercard
-    this.tempMasterCard = mastercard
-    this.vuelto = this.total - this.efectivo - this.visa - this.mastercard
-    if(this.vuelto > 0){
-      this.vuelto = Number(this.vuelto.toFixed(2))
-    }else{
-      this.vuelto = 0
-    }
-  } else {
-
-    if (this.total === (Number(this.vuelto) + Number(this.mastercard))) {
-      this.vuelto = 0
+  calculoDiferenciaMastercard(mastercard: number) {
+    if (mastercard > 0) {
+      this.mastercard = mastercard
+      this.tempMasterCard = mastercard
+      this.vuelto = this.total - this.efectivo - this.visa - this.mastercard
+      if (this.vuelto > 0) {
+        this.vuelto = Number(this.vuelto.toFixed(2))
+      } else {
+        this.vuelto = 0
+      }
     } else {
-      this.vuelto = Number(this.vuelto) + Number(this.tempMasterCard)
+
+      if (this.total === (Number(this.vuelto) + Number(this.mastercard))) {
+        this.vuelto = 0
+      } else {
+        this.vuelto = Number(this.vuelto) + Number(this.tempMasterCard)
+      }
     }
   }
-}
 
 
-  registrarVenta(){
+  registrarVenta() {
+    let tipoPedido = new TipoPedido()
+    tipoPedido.idTipoPedido = 1
     //datos del pedido
     let pedido = new Pedido()
+    pedido.tipoPedido = tipoPedido
     // pedido.idPedido = this.form.value['id'];
     pedido.cliente = this.form.value['cliente']
     pedido.empleado = this.form.value['empleado']
@@ -518,7 +523,7 @@ calculoDiferenciaMastercard(mastercard: number) {
       pedidoDetalle.producto = producto
       this.productoArr.push(producto)
       this.pedidoDetalleArr.push(pedidoDetalle)
-     })
+    })
     pedido.total = this.total
 
     // const pedidoDto = new PedidoDto()
@@ -552,7 +557,7 @@ calculoDiferenciaMastercard(mastercard: number) {
 
 
 
-    this.productoArr= []
+    this.productoArr = []
     this.pedidoDetalleArr = []
     this.pedidosDetalle.controls = []
     this.total = 0
@@ -560,7 +565,7 @@ calculoDiferenciaMastercard(mastercard: number) {
 
   }
 
-  mostrarMas(e: any){
+  mostrarMas(e: any) {
     this.pedidoService.listarPageable(e.pageIndex, e.pageSize).subscribe(data => {
       this.cantidad = data.totalElements;
       this.dataSource = new MatTableDataSource(data.content);
@@ -582,7 +587,7 @@ calculoDiferenciaMastercard(mastercard: number) {
     })
   }
 
-  actualizarPedidosPorSocket(){
+  actualizarPedidosPorSocket() {
     this.stompService.subscribe('/topic/venta', (): void => {
       this.listarPedidos()
     })

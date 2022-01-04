@@ -16,6 +16,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Cliente } from 'src/app/_model/cliente';
 import { TipoRecibo } from 'src/app/_model/tipo-recibo';
+import { VentaDto } from 'src/app/_dto/ventaDto';
 
 @Component({
   selector: 'app-venta',
@@ -73,7 +74,7 @@ export class VentaComponent implements OnInit {
   registrarVenta() {
     let venta = new Venta()
     venta.numVenta = this.form.value['numVenta'];
-    // venta.cliente = this.form.value['cliente']descomentar
+    //  venta.cliente = this.form.value['cliente']//descomentar
     venta.tipoRecibo = this.form.value['tipoRecibo']
     venta.pedido = this.pedido
     venta.visa = this.visa
@@ -82,11 +83,25 @@ export class VentaComponent implements OnInit {
     venta.total = this.total
     console.log(venta)
 
-    this.ventaService.registrar(venta).subscribe(data => {
-      console.log(data)
+    let ventaDto = new VentaDto()
+    ventaDto.pedido = this.pedido
+    // ventaDto.pedidoDetalles = this.pedidoDetalleArr
+    ventaDto.venta = venta
+
+
+
+    this.ventaService.registrarTransaccion(ventaDto).subscribe(data => {
       this.listarPedidosMesa()
+      // this.actualizarPedidosPorSocket()
       this.snackBar.open("SE REGISTRO", "Aviso", { duration: 2000 });
     })
+
+
+    // this.ventaService.registrar(venta).subscribe(data => {
+    //   console.log(data)
+    //   this.listarPedidosMesa()
+    //   this.snackBar.open("SE REGISTRO", "Aviso", { duration: 2000 });
+    // })
 
     this.listarPedidosMesa()
     this.pedidoDetalleArr = []

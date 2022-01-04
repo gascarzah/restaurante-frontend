@@ -53,5 +53,9 @@ listarPorPedidoMesa(){
 actualizarEstado(pedido: Pedido) {
   return this.http.post(`${this.url}/actualizarEstado`, pedido);
 }
+
+// listarTipoVentaPageable( p: number, s:number){
+//   return this.http.get<any>(`${this.url}/tipoVentapageable?page=${p}&size=${s}`);
+// }
 }
 

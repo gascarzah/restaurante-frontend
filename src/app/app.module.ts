@@ -32,7 +32,8 @@ export function tokenGetter() {
     LoginComponent,
 
   ],
-  imports: [BrowserModule,
+  imports: [
+    BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -62,7 +63,7 @@ export function tokenGetter() {
       useClass: ServerErrorsInterceptor,
       multi: true
     },
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,3 +1,4 @@
+import { TipoPedido } from './../../_model/tipo-pedido';
 import { CategoriaProductoService } from './../../_service/categoria-producto.service';
 import { CategoriaProducto } from './../../_model/categoria-producto';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,6 +17,10 @@ import { PedidoDetalle } from '../../_model/pedido-detalle';
 import { PedidoDto } from '../../_dto/pedidoDto';
 import { PedidoService } from '../../_service/pedido.service';
 import { switchMap } from 'rxjs/operators';
+import { Cliente } from 'src/app/_model/cliente';
+import { Empleado } from 'src/app/_model/empleado';
+import { ClienteService } from 'src/app/_service/cliente.service';
+import { EmpleadoService } from 'src/app/_service/empleado.service';
 
 
 @Component({
@@ -40,22 +45,31 @@ export class TomaPedidoMesaComponent implements OnInit {
   categoriaProducto: CategoriaProducto
   categoriasProducto$: Observable<CategoriaProducto[]>;
  total : number = 0
-
+ clienteSeleccionado: Cliente
+ clientes$: Observable<Cliente[]>;
+ mozoSeleccionado: Empleado
+ mozos$: Observable<Empleado[]>;
   constructor(private mesaService: MesaService,
               private productoService: ProductoService,
               private cdRef: ChangeDetectorRef,
               private fb: FormBuilder,
               private pedidoService: PedidoService,
               private snackBar: MatSnackBar,
-              private categoriaProductoService: CategoriaProductoService,) { }
+              private categoriaProductoService: CategoriaProductoService,
+              private clienteService: ClienteService,
+              private empleadoService: EmpleadoService,) { }
 
   ngOnInit(): void {
+    this.listarClientes()
+    this.listarMozos()
   this.listarMesas()
   // this.listarProductos()
   this.listarCategoriasProducto()
    this.form = this.fb.group({
       'id': new FormControl(0),
       'mesas': new FormControl(''),
+      'clientes': new FormControl(''),
+      'mozos': new FormControl(''),
       'categoriaProducto': new FormControl(''),
       pedidosDetalle: this.fb.array([]),
 
@@ -98,12 +112,18 @@ export class TomaPedidoMesaComponent implements OnInit {
 
   }
 
-
+  listarClientes() {
+    this.clientes$ = this.clienteService.listar();
+  }
+  listarMozos() {
+    this.mozos$ = this.empleadoService.listar();
+  }
   registrarPedido() {
 
     let pedido = new Pedido()
     pedido.idPedido = this.form.value['id'];
-
+    pedido.cliente = this.clienteSeleccionado;
+    pedido.empleado = this.mozoSeleccionado
     let total = 0
     this.pedidosDetalle.controls.forEach((element, index) => {
       let pedidoDetalle = new PedidoDetalle()
@@ -115,6 +135,10 @@ export class TomaPedidoMesaComponent implements OnInit {
     })
     this.total = total
     pedido.total = this.total
+
+    let tipoPedido = new TipoPedido()
+    tipoPedido.idTipoPedido = 2
+    pedido.tipoPedido = tipoPedido
 
     const pedidoDto = new PedidoDto()
     pedidoDto.pedido = pedido;
@@ -148,6 +172,7 @@ export class TomaPedidoMesaComponent implements OnInit {
   }
 
   productoEscogido(carta: Producto){
+    console.log(carta)
     this.addPedidoDetalle(carta)
   }
 

@@ -28,6 +28,7 @@ import { MatPaginatorImpl } from './mat-paginator';
 import { MatTabsModule } from '@angular/material/tabs';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -60,6 +61,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatTabsModule,
     MatRadioModule,
     MatProgressBarModule,
+
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: MatPaginatorImpl },

@@ -1,3 +1,4 @@
+
 import { InicioComponent } from './inicio/inicio.component';
 import { Not403Component } from './not403/not403.component';
 import { VentaDirectaComponent } from './venta-directa/venta-directa.component';
@@ -20,66 +21,67 @@ import { ClienteComponent } from './cliente/cliente.component';
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GuardService } from '../_service/guard.service';
+// import { GuardService } from '../_service/guard.service';
 import { Not404Component } from './not404/not404.component';
 
 
 const routes: Routes = [
-  { path: 'inicio', component: InicioComponent, canActivate: [GuardService] },
+  { path: 'inicio', component: InicioComponent },
   {
-    path: 'cliente', component: ClienteComponent, canActivate: [GuardService]
+    path: 'cliente', component: ClienteComponent
   },
   {
-    path: 'insumo', component: InsumoComponent, canActivate: [GuardService]
+    path: 'insumo', component: InsumoComponent
   },
   {
-    path: 'mesa', component: MesaComponent, canActivate: [GuardService]
+    path: 'mesa', component: MesaComponent
   },
   {
     path: 'categoria-insumo', component: CategoriaInsumoComponent, children: [
       { path: 'nuevo', component: CategoriaInsumoEdicionComponent },
       { path: 'edicion/:id', component: CategoriaInsumoEdicionComponent },
-    ], canActivate: [GuardService]
+    ]
   },
   {
-    path: 'categoria-producto', component: CategoriaProductoComponent, canActivate: [GuardService]
+    path: 'categoria-producto', component: CategoriaProductoComponent
   },
   {
-    path: 'empleado', component: EmpleadoComponent, canActivate: [GuardService]
+    path: 'empleado', component: EmpleadoComponent
   },
   {
-    path: 'proveedor', component: ProveedorComponent, canActivate: [GuardService]
+    path: 'proveedor', component: ProveedorComponent
   },
   {
     path: 'producto', component: ProductoComponent, children: [
       { path: 'nuevo', component: ProductoEdicionComponent },
       { path: 'edicion/:id', component: ProductoEdicionComponent },
-    ], canActivate: [GuardService]
+    ]
   },
   {
-    path: 'pedido', component: PedidoComponent, canActivate: [GuardService]
+    path: 'pedido', component: PedidoComponent
   },
   {
-    path: 'toma-pedido', component: TomaPedidoComponent, canActivate: [GuardService]
+    path: 'toma-pedido', component: TomaPedidoComponent
   },
   {
-    path: 'toma-pedido-mesa', component: TomaPedidoMesaComponent, canActivate: [GuardService]
+    path: 'toma-pedido-mesa', component: TomaPedidoMesaComponent
   },
   {
-    path: 'compra', component: CompraComponent, canActivate: [GuardService]
+    path: 'compra', component: CompraComponent
   },
   {
-    path: 'compra-nuevo', component: CompraEdicionComponent, canActivate: [GuardService]
+    path: 'compra-nuevo', component: CompraEdicionComponent
   },
   {
-    path: 'compra-edicion/:id', component: CompraEdicionComponent, canActivate: [GuardService]
+    path: 'compra-edicion/:id', component: CompraEdicionComponent
   },
   {
-    path: 'venta', component: VentaComponent, canActivate: [GuardService]
+    path: 'venta', component: VentaComponent
   },
   {
-    path: 'venta-directa', component: VentaDirectaComponent, canActivate: [GuardService]
+    path: 'venta-directa', component: VentaDirectaComponent
   },
+
   { path: 'not-403', component: Not403Component },
    { path: 'not-404', component: Not404Component },
   {

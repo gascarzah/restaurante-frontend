@@ -2,6 +2,40 @@
 
   <div class="wrapper ">
 
+    <div class="aside">
+      <mat-toolbar>Cliente :</mat-toolbar>
+      <div [hidden]="true">
+        <mat-form-field appearance="fill">
+            <input matInput placeholder="ID" required formControlName="id">
+        </mat-form-field>
+    </div>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Cliente</mat-label>
+                 <mat-select placeholder="Selecciona cliente" [(value)]="clienteSeleccionado" formControlName="clientes" >
+                    <mat-option *ngFor="let p of (clientes$ | async)" [value]="p" >
+                     {{p.apellidoPaterno }} {{p.apellidoMaterno}}, {{p.nombres}}
+                    </mat-option>
+                </mat-select>
+        </mat-form-field>
+
+
+       <!-- <mat-toolbar>Mozo :</mat-toolbar>
+        <div [hidden]="true">
+          <mat-form-field appearance="fill">
+              <input matInput placeholder="ID" required formControlName="id">
+          </mat-form-field>
+      </div> -->
+
+          <mat-form-field appearance="fill">
+           <mat-label>Mozo</mat-label>
+                   <mat-select placeholder="Selecciona mozo" [(value)]="mozoSeleccionado" formControlName="mozos" >
+                      <mat-option *ngFor="let p of (mozos$ | async)" [value]="p" >
+                       {{p.apellidoPaterno }} {{p.apellidoMaterno}}, {{p.nombres}}
+                      </mat-option>
+                  </mat-select>
+          </mat-form-field>
+    </div>
 
     <div class="aside">
    <mat-toolbar>Mesas :

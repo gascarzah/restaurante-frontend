@@ -27,7 +27,7 @@ import { ClienteComponent } from './cliente/cliente.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
+// import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { MaterialModule } from '../material/material.module';
@@ -41,20 +41,21 @@ import { TokenComponent } from './login/recuperar/token/token.component';
 import { LayoutComponent } from './layout/layout.component';
 import { InicioComponent } from './inicio/inicio.component';
 
+
 @NgModule({
   imports: [
-      MaterialModule,
-      CommonModule,
-      HttpClientModule,
-      ReactiveFormsModule,
-      FormsModule,
-      FlexLayoutModule,
-      // PdfViewerModule,
-      PagesRoutingModule
+    MaterialModule,
+    CommonModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
+    // FlexLayoutModule,
+    // PdfViewerModule,
+    PagesRoutingModule
   ],
   exports: [],
   declarations: [
-  ClienteComponent,
+    ClienteComponent,
     EmpleadoComponent,
     ProductoComponent,
     ProveedorComponent,
@@ -78,15 +79,16 @@ import { InicioComponent } from './inicio/inicio.component';
     CompraEdicionComponent,
     VentaComponent,
     Not404Component,
-        VentaDirectaComponent,
+    VentaDirectaComponent,
     ClienteEdicionDirectoComponent,
     TomaPedidoMesaComponent,
     LayoutComponent,
-      Not403Component,
-      Not404Component,
-      RecuperarComponent,
-      TokenComponent,
-      InicioComponent
+    Not403Component,
+    Not404Component,
+    RecuperarComponent,
+    TokenComponent,
+    InicioComponent,
+
   ],
   providers: [],
 })

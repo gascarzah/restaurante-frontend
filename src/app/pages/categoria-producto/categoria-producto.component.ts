@@ -15,7 +15,8 @@ import { CategoriaProductoService } from 'src/app/_service/categoria-producto.se
 @Component({
   selector: 'app-categoria-producto',
   templateUrl: './categoria-producto.component.html',
-  styleUrls: ['./categoria-producto.component.css']
+  styleUrls: ['./categoria-producto.component.css'],
+
 })
 export class CategoriaProductoComponent implements OnInit {
 displayedColumns = ['nombre', 'descripcion', 'activo', 'acciones'];

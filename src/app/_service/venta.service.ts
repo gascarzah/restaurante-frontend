@@ -1,3 +1,4 @@
+
 import { environment } from './../../environments/environment';
 import { GenericService } from './generic.service';
 import { HttpClient } from '@angular/common/http';
@@ -44,4 +45,6 @@ export class VentaService extends GenericService<Venta>{
   registrarTransaccion(ventaDto: VentaDto) {
     return this.http.post(this.url, ventaDto);
   }
+
+
 }
