@@ -15,8 +15,8 @@
 main {
   display: flex;
   flex-flow: row nowrap;
-  align-items: space-between;
-  justify-content: center;
+  align-items: baseline;
+  /* justify-content: space-around; */
   /* align-content: center; */
   /* max-width: 1250px; */
 }

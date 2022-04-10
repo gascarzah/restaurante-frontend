@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   HOST: 'http://localhost:8080/api',
-  TOKEN_AUTH_USERNAME: 'mitomediapp',
-  TOKEN_AUTH_PASSWORD: 'mito89codex',
+  TOKEN_AUTH_USERNAME: 'gafahmediapp',
+  TOKEN_AUTH_PASSWORD: 'gafah82codex',
   TOKEN_NAME: 'access_token',
   REFRESH_TOKEN: 'refresh_token',
   REINTENTOS: 2,

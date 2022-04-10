@@ -13,10 +13,13 @@ import { PedidoService } from './../../_service/pedido.service';
 import { Observable } from 'rxjs';
 import { Pedido } from './../../_model/pedido';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Cliente } from 'src/app/_model/cliente';
 import { TipoRecibo } from 'src/app/_model/tipo-recibo';
 import { VentaDto } from 'src/app/_dto/ventaDto';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-venta',
@@ -45,6 +48,10 @@ export class VentaComponent implements OnInit {
   mastercard: number = 0
   tempMasterCard: number = 0
   vuelto: number = 0.0
+  dataSource: MatTableDataSource<Pedido>;
+  cantidad: number = 0;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private pedidoService: PedidoService,
     private pedidoDetalleService: PedidoDetalleService,
@@ -110,10 +117,28 @@ export class VentaComponent implements OnInit {
   }
 
   listarPedidosMesa() {
+  // console.log('pedidosmesa')
+  //   this.pedidosMesa$ = this.pedidoService.listarPorPedidoMesa();
+  //   this.pedidosMesa$.subscribe(productos => this.pedidoMesaArr = productos)
 
-    this.pedidosMesa$ = this.pedidoService.listarPorPedidoMesa();
-    this.pedidosMesa$.subscribe(productos => this.pedidoMesaArr = productos)
-  }
+  this.pedidoService.getPedidoCambio().subscribe(data => {
+
+    this.crearTabla(data);
+  });
+
+  this.pedidoService.getMensajeCambio().subscribe(data => {
+
+    this.snackBar.open(data, 'AVISO', { duration: 2000 });
+  });
+
+  this.pedidoService.listarPageable(0, 10).subscribe(data => {
+
+    this.cantidad = data.totalElements;
+    this.dataSource = new MatTableDataSource(data.content);
+    this.dataSource.sort = this.sort;
+  });
+
+}
 
   listarDetalles(pedidoMesaDto: PedidoMesaDto) {
     console.log(pedidoMesaDto)
@@ -184,6 +209,22 @@ export class VentaComponent implements OnInit {
       }
     }
 
+  }
+
+  mostrarMas(e: any){
+    console.log('mostrar mas')
+    this.pedidoService.listarPageable(e.pageIndex, e.pageSize).subscribe(data => {
+      this.cantidad = data.totalElements;
+      this.dataSource = new MatTableDataSource(data.content);
+      this.dataSource.sort = this.sort;
+    });
+  }
+
+
+  crearTabla(data: Pedido[]) {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
 }
