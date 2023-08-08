@@ -1,7 +1,7 @@
 import { PasswordValidation } from './match';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { LoginService } from './../../../../_service/login.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -11,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TokenComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   token: string;
   mensaje: string;
   error: string;
@@ -19,7 +19,7 @@ export class TokenComponent implements OnInit {
   tokenValido: boolean;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private loginService : LoginService

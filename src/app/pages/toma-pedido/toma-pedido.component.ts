@@ -8,8 +8,8 @@ import { ProductoDetalle } from './../../_model/producto-detalle';
 
 import { ProductoService } from './../../_service/producto.service';
 import { Producto } from './../../_model/producto';
-import { FormControl, FormArray, FormBuilder } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MesaService } from './../../_service/mesa.service';
 import { Mesa } from './../../_model/mesa';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
@@ -31,7 +31,7 @@ export class TomaPedidoComponent implements OnInit {
   @Input() nombre: string;
   // mesas$: Observable<Mesa[]>;
   productos$: Observable<Producto[]>;
-  form: FormGroup
+  form: UntypedFormGroup
   edicion: boolean = false;
   // mesas: Mesa[] = []
   // producto: Producto
@@ -52,7 +52,7 @@ export class TomaPedidoComponent implements OnInit {
   constructor(private mesaService: MesaService,
               private productoService: ProductoService,
               private cdRef: ChangeDetectorRef,
-              private fb: FormBuilder,
+              private fb: UntypedFormBuilder,
               private pedidoService: PedidoService,
               private snackBar: MatSnackBar,
               private categoriaProductoService: CategoriaProductoService,
@@ -66,11 +66,11 @@ export class TomaPedidoComponent implements OnInit {
   // this.listarProductos()
   this.listarCategoriasProducto()
    this.form = this.fb.group({
-      'id': new FormControl(0),
+      'id': new UntypedFormControl(0),
       // 'mesas': new FormControl(''),
-      'clientes': new FormControl(''),
-      'mozos': new FormControl(''),
-      'categoriaProducto': new FormControl(''),
+      'clientes': new UntypedFormControl(''),
+      'mozos': new UntypedFormControl(''),
+      'categoriaProducto': new UntypedFormControl(''),
       pedidosDetalle: this.fb.array([]),
 
    })
@@ -79,7 +79,7 @@ export class TomaPedidoComponent implements OnInit {
 
 
   get pedidosDetalle(){
-    return this.form.controls['pedidosDetalle'] as FormArray
+    return this.form.controls['pedidosDetalle'] as UntypedFormArray
   }
 
   addPedidoDetalle(carta: Producto){
@@ -98,10 +98,10 @@ export class TomaPedidoComponent implements OnInit {
     } else {
       this.nombre = carta.nombre
       const pedidoDetalleForm = this.fb.group({
-      'producto': new FormControl(carta),
-      'nombre': new FormControl(carta.nombre),
-      'cantidad': new FormControl(0),
-      'observacion': new FormControl(''),
+      'producto': new UntypedFormControl(carta),
+      'nombre': new UntypedFormControl(carta.nombre),
+      'cantidad': new UntypedFormControl(0),
+      'observacion': new UntypedFormControl(''),
     })
     console.log(pedidoDetalleForm)
     this.pedidosDetalle.push(pedidoDetalleForm)

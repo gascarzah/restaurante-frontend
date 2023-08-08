@@ -14,7 +14,7 @@ import { CompraService } from './../../../_service/compra.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { InsumoService } from './../../../_service/insumo.service';
 import { Compra } from './../../../_model/compra';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Insumo } from 'src/app/_model/insumo';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -38,7 +38,7 @@ export class CompraEdicionComponent implements OnInit {
   proveedor: Proveedor
   tipoRecibo: TipoRecibo
   insumo: Insumo
-  form: FormGroup
+  form: UntypedFormGroup
   cantidad: number= 0;
   stock: number= 0;
   precioUnidad: number= 0;
@@ -69,16 +69,16 @@ export class CompraEdicionComponent implements OnInit {
     this.listarProveedores()
     this.compra = new Compra();
 
-    this.form = new FormGroup({
-      'id': new FormControl(0),
-      'stock': new FormControl(''),
-      'tipoRecibo': new FormControl(''),
-      'precioUnidad': new FormControl(''),
-      'proveedor': new FormControl(''),
-      'cantidad': new FormControl(''),
-      'insumo': new FormControl(''),
-       'codigoCompra': new FormControl(''),
-       'numeroRecibo': new FormControl('')
+    this.form = new UntypedFormGroup({
+      'id': new UntypedFormControl(0),
+      'stock': new UntypedFormControl(''),
+      'tipoRecibo': new UntypedFormControl(''),
+      'precioUnidad': new UntypedFormControl(''),
+      'proveedor': new UntypedFormControl(''),
+      'cantidad': new UntypedFormControl(''),
+      'insumo': new UntypedFormControl(''),
+       'codigoCompra': new UntypedFormControl(''),
+       'numeroRecibo': new UntypedFormControl('')
     })
 
     this.route.params.subscribe((params: Params) => {
@@ -96,16 +96,16 @@ export class CompraEdicionComponent implements OnInit {
         let id = data.idCompra;
 
 
-        this.form = new FormGroup({
-          'id': new FormControl(id),
-          'stock': new FormControl(''),
-          'cantidad': new FormControl(),
-          'precioUnidad': new FormControl(''),
-          'insumo': new FormControl(),
-          'proveedor': new FormControl(''),
-          'codigoCompra': new FormControl(''),
-          'tipoRecibo': new FormControl(''),
-          'numeroRecibo': new FormControl(''),
+        this.form = new UntypedFormGroup({
+          'id': new UntypedFormControl(id),
+          'stock': new UntypedFormControl(''),
+          'cantidad': new UntypedFormControl(),
+          'precioUnidad': new UntypedFormControl(''),
+          'insumo': new UntypedFormControl(),
+          'proveedor': new UntypedFormControl(''),
+          'codigoCompra': new UntypedFormControl(''),
+          'tipoRecibo': new UntypedFormControl(''),
+          'numeroRecibo': new UntypedFormControl(''),
         });
 
 

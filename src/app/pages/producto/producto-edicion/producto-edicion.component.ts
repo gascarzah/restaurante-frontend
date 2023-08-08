@@ -8,7 +8,7 @@ import { ProductoService } from '../../../_service/producto.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 
 @Component({
@@ -18,7 +18,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class ProductoEdicionComponent implements OnInit {
 
- form: FormGroup
+ form: UntypedFormGroup
  habilitado: boolean = true
  edicion: boolean = false;
  producto: Producto

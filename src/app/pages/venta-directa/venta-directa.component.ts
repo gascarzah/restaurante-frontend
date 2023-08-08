@@ -18,7 +18,7 @@ import { Cliente } from './../../_model/cliente';
 import { TipoRecibo } from 'src/app/_model/tipo-recibo';
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, FormArray } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, UntypedFormArray } from '@angular/forms';
 import { Producto } from 'src/app/_model/producto';
 import { map, startWith } from 'rxjs/operators';
 import { ClienteService } from 'src/app/_service/cliente.service';
@@ -52,16 +52,16 @@ export class VentaDirectaComponent implements OnInit {
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
 
   tipoRecibos$: Observable<TipoRecibo[]>;
-  form: FormGroup
+  form: UntypedFormGroup
   clientesFiltrados$: Observable<Cliente[]>;
   productosFiltrados$: Observable<Producto[]>;
   empleadosFiltrados$: Observable<Empleado[]>;
   clientes: Cliente[]
   empleados: Empleado[]
   productos: Producto[]
-  myControlCliente: FormControl = new FormControl();
-  myControlProducto: FormControl = new FormControl();
-  myControlEmpleado: FormControl = new FormControl();
+  myControlCliente: UntypedFormControl = new UntypedFormControl();
+  myControlProducto: UntypedFormControl = new UntypedFormControl();
+  myControlEmpleado: UntypedFormControl = new UntypedFormControl();
 
   dni: string;
   nombres: string;
@@ -109,7 +109,7 @@ export class VentaDirectaComponent implements OnInit {
 
   isTableExpanded = false;
 
-  constructor(private fb: FormBuilder,
+  constructor(private fb: UntypedFormBuilder,
     private clienteService: ClienteService,
     private productoService: ProductoService,
     private snackBar: MatSnackBar,
@@ -128,16 +128,16 @@ export class VentaDirectaComponent implements OnInit {
     this.actualizarPedidosPorSocket()
 
     this.form = this.fb.group({
-      'tipoRecibo': new FormControl(''),
+      'tipoRecibo': new UntypedFormControl(''),
       'cliente': this.myControlCliente,
       'producto': this.myControlProducto,
-      'observacion': new FormControl(''),
+      'observacion': new UntypedFormControl(''),
       'empleado': this.myControlEmpleado,
-      'numVenta': new FormControl(''),
-      'efectivo': new FormControl(''),
-      'visa': new FormControl(''),
-      'mastercard': new FormControl(''),
-      'vuelto': new FormControl(''),
+      'numVenta': new UntypedFormControl(''),
+      'efectivo': new UntypedFormControl(''),
+      'visa': new UntypedFormControl(''),
+      'mastercard': new UntypedFormControl(''),
+      'vuelto': new UntypedFormControl(''),
 
       pedidosDetalle: this.fb.array([]),
     })
@@ -185,7 +185,7 @@ export class VentaDirectaComponent implements OnInit {
   }
 
   get pedidosDetalle() {
-    return this.form.controls['pedidosDetalle'] as FormArray
+    return this.form.controls['pedidosDetalle'] as UntypedFormArray
   }
 
   setValueFromDialog(cliente: Cliente): void {
@@ -315,13 +315,13 @@ export class VentaDirectaComponent implements OnInit {
       } else {
         // this.nombre = producto.nombre
         const pedidoDetalleForm = this.fb.group({
-          'categoria': new FormControl(producto.categoriaProducto.nombre),
-          'producto': new FormControl(producto),
-          'nombre': new FormControl(producto.nombre),
-          'cantidad': new FormControl(0),
-          'precio': new FormControl(producto.precio),
-          'stock': new FormControl(producto.stock),
-          'importe': new FormControl(0)
+          'categoria': new UntypedFormControl(producto.categoriaProducto.nombre),
+          'producto': new UntypedFormControl(producto),
+          'nombre': new UntypedFormControl(producto.nombre),
+          'cantidad': new UntypedFormControl(0),
+          'precio': new UntypedFormControl(producto.precio),
+          'stock': new UntypedFormControl(producto.stock),
+          'importe': new UntypedFormControl(0)
         })
         console.log(pedidoDetalleForm)
         this.pedidosDetalle.push(pedidoDetalleForm)
@@ -353,13 +353,13 @@ export class VentaDirectaComponent implements OnInit {
       } else {
         // this.nombre = producto.nombre
         const pedidoDetalleForm = this.fb.group({
-          'categoria': new FormControl(producto.categoriaProducto.nombre),
-          'producto': new FormControl(producto),
-          'nombre': new FormControl(producto.nombre),
-          'cantidad': new FormControl(0),
-          'precio': new FormControl(producto.precio),
-          'stock': new FormControl(producto.stock),
-          'importe': new FormControl(0)
+          'categoria': new UntypedFormControl(producto.categoriaProducto.nombre),
+          'producto': new UntypedFormControl(producto),
+          'nombre': new UntypedFormControl(producto.nombre),
+          'cantidad': new UntypedFormControl(0),
+          'precio': new UntypedFormControl(producto.precio),
+          'stock': new UntypedFormControl(producto.stock),
+          'importe': new UntypedFormControl(0)
         })
 
         this.pedidosDetalle.push(pedidoDetalleForm)

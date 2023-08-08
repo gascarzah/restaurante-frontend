@@ -4,7 +4,7 @@ import { VentaService } from './../../_service/venta.service';
 import { Venta } from './../../_model/venta';
 import { TipoReciboService } from './../../_service/tipo-recibo.service';
 import { ClienteService } from './../../_service/cliente.service';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { PedidoDetalleService } from './../../_service/pedido-detalle.service';
 import { PedidoDetalle } from './../../_model/pedido-detalle';
 import { PedidoMesaDto } from './../../_dto/pedidoMesaDto';
@@ -12,7 +12,7 @@ import { Mesa } from './../../_model/mesa';
 import { PedidoService } from './../../_service/pedido.service';
 import { Observable } from 'rxjs';
 import { Pedido } from './../../_model/pedido';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Cliente } from 'src/app/_model/cliente';
 import { TipoRecibo } from 'src/app/_model/tipo-recibo';
@@ -27,7 +27,7 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./venta.component.css']
 })
 export class VentaComponent implements OnInit {
-  form: FormGroup
+  form: UntypedFormGroup
   pedido: Pedido
   // pedidos$: Observable<Pedido[]>;
   mesas: Mesa[]
@@ -55,7 +55,7 @@ export class VentaComponent implements OnInit {
 
   constructor(private pedidoService: PedidoService,
     private pedidoDetalleService: PedidoDetalleService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private clienteService: ClienteService,
     private tipoReciboService: TipoReciboService,
     private snackBar: MatSnackBar,
@@ -67,13 +67,13 @@ export class VentaComponent implements OnInit {
     this.listarTipoRecibo()
 
     this.form = this.fb.group({
-      'numVenta': new FormControl(''),
-      'cliente': new FormControl(''),
-      'tipoRecibo': new FormControl(''),
-      'efectivo': new FormControl(''),
-      'visa': new FormControl(''),
-      'mastercard': new FormControl(''),
-      'vuelto': new FormControl(''),
+      'numVenta': new UntypedFormControl(''),
+      'cliente': new UntypedFormControl(''),
+      'tipoRecibo': new UntypedFormControl(''),
+      'efectivo': new UntypedFormControl(''),
+      'visa': new UntypedFormControl(''),
+      'mastercard': new UntypedFormControl(''),
+      'vuelto': new UntypedFormControl(''),
     })
   }
 
